@@ -59,7 +59,6 @@ public class BuzzNumber {
 //                .map(String::valueOf)
 //                .collect(Collectors.joining());
         lst.removeLast();  // More direct than passing the value
-        System.out.println("------------");
         // If the list is now empty, the concatenated number is treated as 0
         long concatenatedNumber = 0;
         if (!lst.isEmpty()) {

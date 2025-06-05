@@ -36,9 +36,9 @@ files:
   - name: src/numbers/BuzzNumber.java
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/184/stages/933/implement#comment
+feedback_link: https://hyperskill.org/learn/step/13200#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: "Thu, 05 Jun 2025 10:44:37 UTC"
-record: -1
+record: 3

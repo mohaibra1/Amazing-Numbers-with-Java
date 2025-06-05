@@ -33,6 +33,18 @@ files:
   - name: test/Request.java
     visible: false
     learner_created: false
-feedback_link: https://hyperskill.org/projects/184/stages/934/implement#comment
-status: Unchecked
+  - name: src/numbers/Numbers.java
+    visible: true
+    learner_created: true
+  - name: src/numbers/DuckNumber.java
+    visible: true
+    learner_created: true
+  - name: src/numbers/BuzzNumber.java
+    visible: true
+    learner_created: true
+feedback_link: https://hyperskill.org/learn/step/13201#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Thu, 05 Jun 2025 13:13:00 UTC"
 record: -1

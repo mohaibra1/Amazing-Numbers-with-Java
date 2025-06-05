@@ -27,7 +27,7 @@ files:
   - name: src/numbers/BuzzNumber.java
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/184/stages/931/implement#comment
+feedback_link: https://hyperskill.org/learn/step/13198#comment
 status: Solved
 feedback:
   message: Congratulations!
