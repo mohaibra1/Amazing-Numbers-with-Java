@@ -24,7 +24,7 @@ files:
   - name: test/NumbersTest.java
     visible: false
     learner_created: false
-  - name: src/numbers/Divisable.java
+  - name: src/numbers/BuzzNumber.java
     visible: true
     learner_created: true
 feedback_link: https://hyperskill.org/projects/184/stages/931/implement#comment
@@ -32,4 +32,4 @@ status: Solved
 feedback:
   message: Congratulations!
   time: "Wed, 04 Jun 2025 10:17:04 UTC"
-record: -1
+record: 1

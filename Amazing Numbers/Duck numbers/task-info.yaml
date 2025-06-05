@@ -27,6 +27,18 @@ files:
   - name: test/PropertiesChecker.java
     visible: false
     learner_created: false
+  - name: src/numbers/BuzzNumber.java
+    visible: true
+    learner_created: true
+  - name: src/numbers/DuckNumber.java
+    visible: true
+    learner_created: true
+  - name: src/numbers/Numbers.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/184/stages/932/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Thu, 05 Jun 2025 08:27:20 UTC"
 record: -1
