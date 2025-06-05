@@ -8,9 +8,7 @@ public class BuzzNumber {
 
     private final String userInput;
     private boolean buzzNumber;
-    private int result;
-    private int lastInteger;
-    private final List<Integer> lst = new ArrayList<>();
+    private final List<Long> lst = new ArrayList<>();
 
     public BuzzNumber(String userInput){
         this.userInput = userInput;
@@ -24,7 +22,7 @@ public class BuzzNumber {
         return buzzNumber;
     }
 
-    public boolean isDivisableBy7(int number) {
+    public boolean isDivisableBy7(long number) {
         if (number % 7 == 0){
             buzzNumber = true;
             return true;
@@ -32,7 +30,7 @@ public class BuzzNumber {
         return false;
     }
 
-    public boolean isLastNumber7(int number){
+    public boolean isLastNumber7(long number){
         String str = String.valueOf(number);
         int n = Integer.parseInt(String.valueOf(str.charAt(str.length()-1)));
         if (n == 7){
@@ -43,38 +41,37 @@ public class BuzzNumber {
     }
 
     public void buzzNumber(){
-            //User input
-            int check = Integer.parseInt(userInput);
+        //User input
+        long check = Long.parseLong(userInput);
 
-
-            //check if odd or even
-            //checkIfOddOrEven(check);
-            processInput(userInput);
-            processAction(check);
+        //check if odd or even
+        //checkIfOddOrEven(check);
+        processInput(userInput);
+        processAction(check);
     }
 
-    private void processAction(int check){
+    private void processAction(long check){
         //checkIfOddOrEven(check);
         // Get and remove the last integer
-        lastInteger = lst.getLast();
-        int substitute = lastInteger * 2;
-        String joined = lst.stream()
-                .map(String::valueOf)
-                .collect(Collectors.joining());
+        long lastInteger = lst.getLast();
+        long substitute = lastInteger * 2;
+//        String joined = lst.stream()
+//                .map(String::valueOf)
+//                .collect(Collectors.joining());
         lst.removeLast();  // More direct than passing the value
-
+        System.out.println("------------");
         // If the list is now empty, the concatenated number is treated as 0
-        int concatenatedNumber = 0;
+        long concatenatedNumber = 0;
         if (!lst.isEmpty()) {
             StringBuilder tempBuilder = new StringBuilder();
-            for (Integer n : lst) {
+            for (Long n : lst) {
                 tempBuilder.append(n);
             }
-            concatenatedNumber = Integer.parseInt(tempBuilder.toString());
+            concatenatedNumber = Long.parseLong(tempBuilder.toString());
         }
 
         // Compute absolute difference
-        result = Math.abs(concatenatedNumber - substitute);
+        long result = Math.abs(concatenatedNumber - substitute);
 
 
         boolean isDivisable = isDivisableBy7(result);
@@ -99,35 +96,35 @@ public class BuzzNumber {
 
     }
 
-    public void processList(){
-        // Get and remove the last integer
-        lastInteger = lst.getLast();
-        int substitute = lastInteger * 2;
-        lst.removeLast();  // More direct than passing the value
-
-        // If the list is now empty, the concatenated number is treated as 0
-        int concatenatedNumber = 0;
-        if (!lst.isEmpty()) {
-            StringBuilder tempBuilder = new StringBuilder();
-            for (Integer n : lst) {
-                tempBuilder.append(n);
-            }
-            concatenatedNumber = Integer.parseInt(tempBuilder.toString());
-        }
-
-        // Compute absolute difference
-        result = Math.abs(concatenatedNumber - substitute);
-
-    }
+//    public void processList(){
+//        // Get and remove the last integer
+//        lastInteger = lst.getLast();
+//        int substitute = lastInteger * 2;
+//        lst.removeLast();  // More direct than passing the value
+//
+//        // If the list is now empty, the concatenated number is treated as 0
+//        int concatenatedNumber = 0;
+//        if (!lst.isEmpty()) {
+//            StringBuilder tempBuilder = new StringBuilder();
+//            for (Integer n : lst) {
+//                tempBuilder.append(n);
+//            }
+//            concatenatedNumber = Integer.parseInt(tempBuilder.toString());
+//        }
+//
+//        // Compute absolute difference
+//        result = Math.abs(concatenatedNumber - substitute);
+//
+//    }
 
     private void processInput(String input){
         String[] input1 = input.split("");
         for (String str : input1) {
-            lst.add(Integer.parseInt(str));
+            lst.add(Long.parseLong(str));
         }
     }
 
-    private void checkIfOddOrEven(int check){
+    private void checkIfOddOrEven(long check){
         if(check % 2 == 0){
             System.out.println("This number is even.");
         }else if (check % 2 != 0){
