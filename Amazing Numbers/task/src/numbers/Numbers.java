@@ -36,7 +36,10 @@ public class Numbers {
     }
 
     private void handleInput(String[] strings) throws Exception {
-        List<String> list = List.of("EVEN","ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING");
+        List<String> list = List.of("EVEN","ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY",
+                "SQUARE", "SUNNY", "JUMPING", "HAPPY", "SAD",
+                "-EVEN","-ODD", "-BUZZ", "-DUCK", "-PALINDROMIC", "-GAPFUL", "-SPY",
+                "-SQUARE", "-SUNNY", "-JUMPING", "-HAPPY", "-SAD");
         if (Long.parseLong(strings[0]) < 0) {
             throw new Exception("The first parameter should be a natural number or zero.");
         }if(strings.length > 1 && Long.parseLong(strings[1]) < 0) {
@@ -53,7 +56,25 @@ public class Numbers {
                 }
             }
 
-            if ((mutual.contains("EVEN") && mutual.contains("ODD")) || (mutual.contains("DUCK") && mutual.contains("SPY")) || (mutual.contains("SUNNY") && mutual.contains("SQUARE"))){
+            if ((mutual.contains("EVEN") && mutual.contains("ODD")) ||
+                    (mutual.contains("DUCK") && mutual.contains("SPY"))
+                    || (mutual.contains("SUNNY") && mutual.contains("SQUARE"))
+                    ||(mutual.contains("HAPPY") && mutual.contains("SAD")
+            || (mutual.contains("-EVEN") && mutual.contains("-ODD")) ||
+                    (mutual.contains("-GAPFUL") && mutual.contains("GAPFUL"))
+                    || (mutual.contains("ODD") && mutual.contains("-ODD"))
+                    ||(mutual.contains("-HAPPY") && mutual.contains("-SAD")
+             ||(mutual.contains("-EVEN") && mutual.contains("EVEN"))
+            || (mutual.contains("-SUNNY") && mutual.contains("SUNNY")))
+                || (mutual.contains("-SAD") && mutual.contains("SAD"))
+                    || (mutual.contains("-BUCK") && mutual.contains("BUCK"))
+                     || (mutual.contains("-HAPPY") && mutual.contains("HAPPY"))
+                    || (mutual.contains("-DUCK") && mutual.contains("DUCK"))
+                    || (mutual.contains("-PALINDROMIC") && mutual.contains("PALINDROMIC"))
+                    || (mutual.contains("-SPY") && mutual.contains("SPY"))
+                    || (mutual.contains("-SQUARE") && mutual.contains("SQUARE"))
+                    || (mutual.contains("-JUMPING") && mutual.contains("JUMPING"))
+            )){
                 throw new Exception("The request contains mutually exclusive properties: " + mutual + "\nThere are no numbers with these properties.");
             }
             if (properties.isEmpty()){
@@ -65,7 +86,7 @@ public class Numbers {
             }
 
             if (!properties.isEmpty()){
-            throw new Exception("The property " + properties + " is wrong. \nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
+            throw new Exception("The property " + properties + " is wrong. \nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING, HAPPY, SAD]");
             }
         }
         System.out.println();
@@ -77,7 +98,21 @@ public class Numbers {
         String temp = inputs[1];
         long increment = Long.parseLong(temp);
         // add all the properties in a list
-        List<String> wordsToFind = new ArrayList<>(Arrays.asList(inputs).subList(2, inputs.length));
+        List<String> wordsToFind = new ArrayList<>();
+        List<String> wordsToIgnore = new ArrayList<>();
+        if (!Arrays.toString(inputs).contains("-")){
+            wordsToFind.addAll(Arrays.asList(inputs).subList(2, inputs.length));
+        }else {
+            for (int i = 2; i < inputs.length; i++){
+                String s = inputs[i];
+                if (s.contains("-")){
+                    s = s.replace("-", "");
+                    wordsToIgnore.add(s);
+                }else {
+                    wordsToFind.add(s);
+                }
+            }
+        }
 
             StringBuilder stringBuilder = new StringBuilder();
             for (long i = 1; i <= increment; i++) {
@@ -95,14 +130,24 @@ public class Numbers {
                         (isPerfectSquare(Long.parseLong(str))? "square, ": "") +
                         (isSunnyNumber(Long.parseLong(str))? "sunny, ": "") +
                         (isJumpingNumber(str) ? "jumping, " : "") +
+                        (isHappyNumber(Long.parseLong(str)) ? "happy, " : "") +
+                        (isSadNumber(str) ? "sad, " : "") +
                         (isEven(str)? "even" : "odd") +
                         ("\n");
 
                  if(inputs.length > 2){
+
                      boolean allExist = wordsToFind.stream()
                              .allMatch(word -> string.toLowerCase().contains(word.toLowerCase()));
+                     boolean ignore = wordsToIgnore.stream()
+                             .noneMatch(word -> string.toLowerCase().contains(word.toLowerCase()));
 
-                     if (allExist) {
+                     if (allExist && ignore){
+                         stringBuilder.append(string);
+                     }
+                     else if (ignore && !wordsToIgnore.isEmpty() && wordsToFind.isEmpty()) {
+                        stringBuilder.append(string);
+                     }else if (allExist && !wordsToFind.isEmpty() && wordsToIgnore.isEmpty()) {
                          stringBuilder.append(string);
                      }else {
                          i--;
@@ -138,6 +183,8 @@ public class Numbers {
                 "        square: " + isPerfectSquare(Long.parseLong(input)) + "\n" +
                 "        sunny: " + isSunnyNumber(Long.parseLong(input)) + "\n" +
                 "        jumping: " + isJumpingNumber(input) + "\n" +
+                "        happy: " + isHappyNumber(Long.parseLong(input)) + "\n" +
+                "        sad: " + isSadNumber(input) + "\n" +
                 "palindromic: " + isPalindromic(input) + "\n";
 
         System.out.println(stringBuilder);
@@ -152,8 +199,8 @@ Supported requests:
  - enter two natural numbers to obtain the properties of the list:
    * the first parameter represents a starting number;
    * the second parameter shows how many consecutive numbers are to be printed;
- - two natural numbers and a property to search for;
- - two natural numbers and two properties to search for;
+ - two natural numbers and properties to search for;
+ - a property preceded by minus must not be present in numbers;
  - separate the parameters with one space;
  - enter 0 to exit.""");
     }
@@ -232,4 +279,31 @@ Supported requests:
         }
         return true;
     }
+
+    public static boolean isHappyNumber(long n) {
+        Set<Long> seen = new HashSet<>();
+
+        while (n != 1 && !seen.contains(n)) {
+            seen.add(n);
+            n = sumOfSquares(n);
+        }
+
+        return n == 1;
+    }
+
+    private static long sumOfSquares(long n) {
+        long sum = 0;
+        while (n > 0) {
+            long digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    private boolean isSadNumber(String num){
+        long n = Long.parseLong(num);
+        return !isHappyNumber(n);
+    }
+
 }
