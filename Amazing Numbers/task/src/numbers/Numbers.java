@@ -31,14 +31,12 @@ public class Numbers {
             }else {
                 processConsecutive(strings);
             }
-//            else if(strings.length == 3){
-//                processConsecutiveWithProperty(strings);
-//            }
+
         }
     }
 
     private void handleInput(String[] strings) throws Exception {
-        List<String> list = List.of("EVEN","ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY");
+        List<String> list = List.of("EVEN","ODD", "BUZZ", "DUCK", "PALINDROMIC", "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING");
         if (Long.parseLong(strings[0]) < 0) {
             throw new Exception("The first parameter should be a natural number or zero.");
         }if(strings.length > 1 && Long.parseLong(strings[1]) < 0) {
@@ -67,17 +65,19 @@ public class Numbers {
             }
 
             if (!properties.isEmpty()){
-            throw new Exception("The property " + properties + " is wrong. \nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY]");
+            throw new Exception("The property " + properties + " is wrong. \nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
             }
         }
         System.out.println();
     }
 
     private void processConsecutive(String[] inputs){
-            System.out.println();
-            long n = Long.parseLong(inputs[0]);
-            String temp = inputs[1];
-            long increment = Long.parseLong(temp);
+        System.out.println();
+        long n = Long.parseLong(inputs[0]);
+        String temp = inputs[1];
+        long increment = Long.parseLong(temp);
+        // add all the properties in a list
+        List<String> wordsToFind = new ArrayList<>(Arrays.asList(inputs).subList(2, inputs.length));
 
             StringBuilder stringBuilder = new StringBuilder();
             for (long i = 1; i <= increment; i++) {
@@ -94,27 +94,21 @@ public class Numbers {
                         (isSPY(str)? "spy, ": "") +
                         (isPerfectSquare(Long.parseLong(str))? "square, ": "") +
                         (isSunnyNumber(Long.parseLong(str))? "sunny, ": "") +
+                        (isJumpingNumber(str) ? "jumping, " : "") +
                         (isEven(str)? "even" : "odd") +
                         ("\n");
 
-                if (inputs.length == 3){
-                    String s = inputs[2].toLowerCase();
+                 if(inputs.length > 2){
+                     boolean allExist = wordsToFind.stream()
+                             .allMatch(word -> string.toLowerCase().contains(word.toLowerCase()));
 
-                    if (string.contains(s)){
-                        stringBuilder.append(string);
-                    }else{
-                        i--;
-                    }
-                }else if(inputs.length == 4){
-                    String s = inputs[2].toLowerCase();
-                    String s1 = inputs[3].toLowerCase();
-                    if (string.contains(s) && string.contains(s1)){
-                        stringBuilder.append(string);
-                    }else{
-                        i--;
-                    }
+                     if (allExist) {
+                         stringBuilder.append(string);
+                     }else {
+                         i--;
+                     }
                 }else {
-                stringBuilder.append(string);
+                    stringBuilder.append(string);
                 }
 
                 n++;
@@ -143,6 +137,7 @@ public class Numbers {
                 "        spy: " + isSPY(input) + "\n" +
                 "        square: " + isPerfectSquare(Long.parseLong(input)) + "\n" +
                 "        sunny: " + isSunnyNumber(Long.parseLong(input)) + "\n" +
+                "        jumping: " + isJumpingNumber(input) + "\n" +
                 "palindromic: " + isPalindromic(input) + "\n";
 
         System.out.println(stringBuilder);
@@ -222,5 +217,19 @@ Supported requests:
 
     private boolean isSunnyNumber(long num){
         return isPerfectSquare(num + 1);
+    }
+
+    private boolean isJumpingNumber(String num){
+        String[] split = num.split("");
+        int diff = 0;
+        for (int i = 0; i < split.length - 1; i++){
+            int x = Integer.parseInt(split[i]);
+            int y = Integer.parseInt(split[i+1]);
+            diff = Math.abs(x - y);
+            if (diff != 1){
+                return false;
+            }
+        }
+        return true;
     }
 }
